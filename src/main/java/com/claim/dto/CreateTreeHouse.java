@@ -8,9 +8,11 @@ public class CreateTreeHouse {
 	Person user;
 	String treeHouseName;
 	
+	
 	//Constructor
 	public CreateTreeHouse() {}
 
+	
 	//Getters and setters
 	public Person getUser() {
 		return user;
