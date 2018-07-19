@@ -22,25 +22,13 @@ public class TreeHouse {
 	@Column(name="tree_Name")
 	String treeHouseName;
 	
-	@Transient
-	//Email of Persons in tree
-	//New table or 1 to Many?
-	Set<String> allPersonsInTree = new HashSet<>();
-		
+	
 	//eventually need to add an array for scrap book pictures
 	
 	
 	//Constructor
 	public TreeHouse(String treeHouseName) {
 		this.treeHouseName = treeHouseName;
-	}
-
-	
-	//To String
-	@Override
-	public String toString() {
-		return "TreeHouse [treeHouseID=" + treeHouseID + ", treeHouseName=" + treeHouseName + ", allPersonsInTree="
-				+ allPersonsInTree + "]";
 	}
 
 	
@@ -61,12 +49,4 @@ public class TreeHouse {
 		this.treeHouseName = treeHouseName;
 	}
 
-	public Set<String> getAllPersonsInTree() {
-		return allPersonsInTree;
-	}
-
-	public void setAllPersonsInTree(Set<String> allPersonsInTree) {
-		this.allPersonsInTree = allPersonsInTree;
-	}
-	
 }

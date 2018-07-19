@@ -3,6 +3,7 @@ package com.claim.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class Person {
 	@Column(name="password")
 	String password;
 
-	//These Strings store the email of the Person
+	//These store Person's email
 	@Column(name="father")
 	String father;
 
@@ -36,9 +37,6 @@ public class Person {
 
 	@Column(name="spouse")
 	String spouse;
-
-	@Transient
-	HashMap<Integer, Integer> treeHouses = new HashMap<>();
 	
 	@Transient
 	Set<String> children = new HashSet<>();
@@ -56,13 +54,6 @@ public class Person {
 		this.password = password;
 	}
 	
-	//To String
-	@Override
-	public String toString() {
-		return "Person [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
-				+ password + ", father=" + father + ", mother=" + mother + ", spouse=" + spouse + ", children="
-				+ children + ", inbox=" + inbox + "]";
-	}
 
 	//Getters and Setters
 	public String getFather() {
@@ -135,14 +126,6 @@ public class Person {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public HashMap<Integer, Integer> getTreeHouses() {
-		return treeHouses;
-	}
-
-	public void setTreeHouses(HashMap<Integer, Integer> treeHouses) {
-		this.treeHouses = treeHouses;
 	}
 
 }
