@@ -2,7 +2,6 @@ package com.claim.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +16,8 @@ import com.claim.dto.CreateTreeHouse;
 import com.claim.dto.InviteUserToTreeHouse;
 import com.claim.dto.SearchForATreeHouse;
 import com.claim.entity.Person;
+import com.claim.entity.PersonTreeHouse;
+import com.claim.entity.TreeHouse;
 import com.claim.service.PersonService;
 import com.claim.service.TreeHouseService;
 
@@ -32,8 +33,7 @@ public class TreeHouseController {
 
 	
 	
-/************* Get Users from a TreeHouse ***************/
-
+/************* Create and Save and new TH ***************/
 	//Create new TreeHouse
 	@RequestMapping(value="/createNewTreeHouse", 
 		consumes=MediaType.APPLICATION_JSON_VALUE,
@@ -43,10 +43,77 @@ public class TreeHouseController {
 		treeHouseService.createTreeHouse(treeHouse.getTreeHouseName(), treeHouse.getUser().getEmail());		
 		System.out.println("TreeHouse created");
 	}
+
 	
 	
+/************* Search for trees a User belongs to ***************/
+	@RequestMapping(value="/searchForTrees",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE,
+			method=RequestMethod.GET)
+	
+	private ResponseEntity<List<TreeHouse>> searchForTrees(String userEmail) {
+		
+		//Get and return list of trees (treeID and treeName) a user belongs to
+		List<TreeHouse> allTrees = treeHouseService.searchForTrees(userEmail);
+		return new ResponseEntity<>(allTrees, HttpStatus.OK);
+	}
+	
+	
+	
+/************* Get all Users that belong to a Tree ***************/
+	//Get users from a given TreeHouse
+	@RequestMapping(value="/getAllTreeMembers", 
+			produces=MediaType.APPLICATION_JSON_VALUE,
+			method=RequestMethod.POST)
+	
+	@ResponseBody
+	private ResponseEntity<ArrayList<ArrayList<Person>>> getAllTreeMembers(int treeID) {
+		
+		//Get a List of email and genID for the tree
+		ArrayList<PersonTreeHouse> allUsers = (ArrayList<PersonTreeHouse>) treeHouseService.getEmailsAndIDs(treeID);
+
+		//Create 2d array to be loaded and returned
+		ArrayList<ArrayList<Person>> entireTree = new ArrayList<>();
+		
+		//Find max Array size
+		int maxGen = 0;
+		for (PersonTreeHouse user : allUsers) {
+			if (user.getGenerationID() > maxGen) {
+				maxGen = user.getGenerationID(); }
+		}
+		
+		//Sort users within the 2d array entireTree
+		for (int i = 0; i < maxGen; i++) {
+
+			//Create array to load and push to entireTree
+			ArrayList<Person> genToAdd = new ArrayList<>();
+			
+			for (PersonTreeHouse user : allUsers) {
+				
+				//See if genID matches array index
+				if(user.getGenerationID() == i) {
+					
+					//Create person object from email
+					Person personToAdd = this.personService.findPerson(user.getPersonEmail());
+					
+					//Add person to that generation
+					genToAdd.add(personToAdd);
+				}
+			}
+			entireTree.add(genToAdd);
+		}
+		return new ResponseEntity<>(entireTree, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+//Still working
+
 /************* Invite Users to a TreeHouse ***************/
-	
 	//TreeHouse members invite Users to a TreeHouse
 	@RequestMapping(value="/inviteUserToTreeHouse",
 		consumes=MediaType.APPLICATION_JSON_VALUE,
@@ -68,42 +135,4 @@ public class TreeHouseController {
 	}
 	
 	
-/************* Get Users from a TreeHouse ***************/
-
-	//Get users from a given TreeHouse
-	@RequestMapping(value="/getAllTreeMembers", 
-			produces=MediaType.APPLICATION_JSON_VALUE,
-			method=RequestMethod.GET)
-	
-	@ResponseBody
-	private ResponseEntity<List<Person>> getAllTreeMembers(int treeID) {
-		//This needs to change
-		//Needs to return a 2D array
-		
-		//Create new list of people
-		List<Person> allPersons = new ArrayList<>();
-
-		//Get/return an email User List for a treeID
-		//List<String> allEmails = treeHouseService.getAllPersonEmails(treeID);
-		
-		//for (String user : allEmails) {
-			//Person personToAdd = this.personService.findPerson(user.getEmail()); 
-			//allPersons.add(personToAdd);
-		
-		return new ResponseEntity<>(allPersons, HttpStatus.OK);
-	}
-	
-	
-	
-//	//For User trying to invite themselves to an existing TreeHouse
-//	//Search for a TreeHouse
-//	@RequestMapping(value="/searchForATreeHouse",
-//			consumes=MediaType.APPLICATION_JSON_VALUE,
-//			produces=MediaType.APPLICATION_JSON_VALUE,
-//			method=RequestMethod.GET)
-//	
-////Not sure what needs to be returned yet
-//	private void searchForATreeHouse(SearchForATreeHouse searchForATreeHouse) {
-//		//find the Person by email	
-//	}
 }

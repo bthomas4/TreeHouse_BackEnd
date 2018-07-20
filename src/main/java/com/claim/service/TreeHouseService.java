@@ -1,5 +1,6 @@
 package com.claim.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ public class TreeHouseService {
 
 	
 /************* Create a new TreeHouse ***************/
-
 	//Create a new TreeHouse
 	public void createTreeHouse(String treeHouseName, String userEmail) {
 		
@@ -35,22 +35,40 @@ public class TreeHouseService {
 	}
 	
 	
-/************* Find all people in a given tree ***************/
 	
-	//Find and return Person email List for a tree
-//	public List<String> getAllPersonEmails(int treeID) {
-	
-		//This needs to return personEmail and genID
-//		List<String> allPersons = this.personTreeHouseRepository.NeedToWriteThisQueryMethod(treeID)
-//		return allEmails;
-//	}
-	
-	
-/************* Find a TreeHouse by ID ***************/
-	
+/************* Find a Tree by treeID ***************/
 	//Find a TreeHouse by TreeHouseID
 	public void findTreeHouse(TreeHouse tree) {
 		this.treeHouseRepository.findOne(tree.getTreeHouseID());
 	}
+
 	
+	
+/************* Find all tree (IDs and Names) a User belongs to ***************/
+	public List<TreeHouse> searchForTrees(String userEmail) {
+		
+		//Get all treeIDs a person belongs to
+		List<Integer> treeIds = (List<Integer>) this.personTreeHouseRespository.getTreeIDs(userEmail);
+		
+		//List of trees to return
+		List<TreeHouse> trees = new ArrayList<>();
+		
+		//return name for each treeId
+		for (int id : treeIds) {
+			TreeHouse treeToAdd = new TreeHouse(this.treeHouseRepository.findOne(id).getTreeHouseName(), id);
+			trees.add(treeToAdd);
+		}
+		return trees;
+	}
+	
+	
+		
+/************* Find all people in a given tree ***************/
+	//Find and return all email and genID for a tree
+	public List<PersonTreeHouse> getEmailsAndIDs(int treeID) {
+	
+		List<PersonTreeHouse> allPersons = (List<PersonTreeHouse>) this.personTreeHouseRespository.getEmailsAndIDs(treeID);
+		return allPersons;
+	}
+
 }

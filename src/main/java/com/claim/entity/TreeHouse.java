@@ -26,7 +26,12 @@ public class TreeHouse {
 	//eventually need to add an array for scrap book pictures
 	
 	
-	//Constructor
+	//Constructors
+	public TreeHouse(String treeHouseName, int treeHouseID) {
+		this.treeHouseName = treeHouseName;
+		this.treeHouseID = treeHouseID;
+	}
+	
 	public TreeHouse(String treeHouseName) {
 		this.treeHouseName = treeHouseName;
 	}

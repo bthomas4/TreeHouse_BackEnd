@@ -25,9 +25,7 @@ public class PersonTreeHouse {
 
 	
 	//Constructors
-	public PersonTreeHouse() {
-		this.generationID = 0;
-	}
+	public PersonTreeHouse() {}
 	
 	public PersonTreeHouse(String personEmail, int treeHouseId) {
 		this.personEmail = personEmail;
