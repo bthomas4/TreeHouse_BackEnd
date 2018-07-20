@@ -68,21 +68,6 @@ public class PersonController {
 	}	
 
 	
-/************* Get Users from a TreeHouse ***************/
-
-	//Get all Users
-	@RequestMapping(value="/getAllUsers", 
-			produces=MediaType.APPLICATION_JSON_VALUE,
-			method=RequestMethod.GET)
-	
-	@ResponseBody
-	private ResponseEntity<List<Person>> getAllUsers() {
-		List<Person> allUsers = personService.getAllPersons();
-		return new ResponseEntity<>(allUsers, HttpStatus.OK);
-	}
-	
-	
-	
 /************* Add a Person to a TreeHouse ***************/
 	
 	
