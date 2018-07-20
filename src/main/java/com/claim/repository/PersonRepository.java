@@ -9,9 +9,5 @@ import com.claim.entity.Person;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, String> {
-	
-	//SQL queries go here if not yet defined
-//	@Query("SELECT p FROM person p WHERE email=:email AND password=:password")
-//	public Person login(@Param("email") String email, @Param("password")String password);
 
 }
