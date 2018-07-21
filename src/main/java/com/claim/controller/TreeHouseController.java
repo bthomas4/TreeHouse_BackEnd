@@ -40,7 +40,6 @@ public class TreeHouseController {
 	
 	private void createNewTreeHouse(@RequestBody CreateTreeHouse treeHouse) {	
 		treeHouseService.createTreeHouse(treeHouse.getTreeHouseName(), treeHouse.getUser().getEmail());		
-		System.out.println("TreeHouse created");
 	}
 
 	
@@ -64,7 +63,7 @@ public class TreeHouseController {
 	//Get users from a given TreeHouse
 	@RequestMapping(value="/getAllTreeMembers", 
 			produces=MediaType.APPLICATION_JSON_VALUE,
-			method=RequestMethod.POST)
+			method=RequestMethod.GET)
 	
 	@ResponseBody
 	private ResponseEntity<ArrayList<ArrayList<Person>>> getAllTreeMembers(int treeID) {

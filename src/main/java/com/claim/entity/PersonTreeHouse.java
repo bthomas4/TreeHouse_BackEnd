@@ -5,14 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="person_tree_house")
 public class PersonTreeHouse {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="person_tree_id", nullable=false)
-	int personTreeId;
+	Long personTreeId;
 	
 	@Column(name="person_email", nullable=false)
 	String personEmail;
@@ -35,11 +37,11 @@ public class PersonTreeHouse {
 	
 	
 	//Getters and Setters
-	public int getPersonTreeId() {
+	public Long getPersonTreeId() {
 		return personTreeId;
 	}	
 	
-	public void setPersonTreeId(int personTreeId) {
+	public void setPersonTreeId(Long personTreeId) {
 		this.personTreeId = personTreeId;
 	}
 

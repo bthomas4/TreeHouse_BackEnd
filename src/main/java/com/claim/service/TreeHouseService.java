@@ -30,7 +30,7 @@ public class TreeHouseService {
 		//Get the treeID and create new PersonTreeHouse
 		int treeID = tree.getTreeHouseID();
 		PersonTreeHouse personTree = new PersonTreeHouse(userEmail, treeID);
-		this.personTreeHouseRespository.save(personTree);
+		this.personTreeHouseRespository.save(personTree);		
 	}
 	
 	
@@ -64,9 +64,9 @@ public class TreeHouseService {
 		
 /************* Find all people in a given tree ***************/
 	//Find and return all email and genID for a tree
-	public List<PersonTreeHouse> getEmailsAndIDs(int treeID) {
-	
-		List<PersonTreeHouse> allPersons = (List<PersonTreeHouse>) this.personTreeHouseRespository.getEmailsAndIDs(treeID);
+	public ArrayList<PersonTreeHouse> getEmailsAndIDs(int treeID) {
+		long newTreeID = (long)treeID;
+		ArrayList<PersonTreeHouse> allPersons = (ArrayList<PersonTreeHouse>) this.personTreeHouseRespository.getEmailsAndIDs(newTreeID);
 		return allPersons;
 	}
 
