@@ -27,6 +27,8 @@ public class TreeHouse {
 	
 	
 	//Constructors
+	public TreeHouse() {}
+	
 	public TreeHouse(String treeHouseName, int treeHouseID) {
 		this.treeHouseName = treeHouseName;
 		this.treeHouseID = treeHouseID;

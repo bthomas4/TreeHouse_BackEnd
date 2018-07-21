@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.claim.dto.CreateTreeHouse;
 import com.claim.dto.InviteUserToTreeHouse;
-import com.claim.dto.SearchForATreeHouse;
 import com.claim.entity.Person;
 import com.claim.entity.PersonTreeHouse;
 import com.claim.entity.TreeHouse;
@@ -48,10 +47,10 @@ public class TreeHouseController {
 	
 /************* Search for trees a User belongs to ***************/
 	@RequestMapping(value="/searchForTrees",
-			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			method=RequestMethod.GET)
 	
+	@ResponseBody
 	private ResponseEntity<List<TreeHouse>> searchForTrees(String userEmail) {
 		
 		//Get and return list of trees (treeID and treeName) a user belongs to

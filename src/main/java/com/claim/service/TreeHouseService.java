@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.claim.repository.PersonTreeHouseRepository;
 import com.claim.repository.TreeHouseRepository;
-import com.claim.entity.Person;
 import com.claim.entity.PersonTreeHouse;
 import com.claim.entity.TreeHouse;
 
@@ -50,10 +49,10 @@ public class TreeHouseService {
 		//Get all treeIDs a person belongs to
 		List<Integer> treeIds = (List<Integer>) this.personTreeHouseRespository.getTreeIDs(userEmail);
 		
-		//List of trees to return
+		//Create a List of trees to return
 		List<TreeHouse> trees = new ArrayList<>();
 		
-		//return name for each treeId
+		//Create and return name for each treeId
 		for (int id : treeIds) {
 			TreeHouse treeToAdd = new TreeHouse(this.treeHouseRepository.findOne(id).getTreeHouseName(), id);
 			trees.add(treeToAdd);

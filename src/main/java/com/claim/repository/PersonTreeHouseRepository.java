@@ -10,10 +10,10 @@ import com.claim.entity.PersonTreeHouse;
 @Repository
 public interface PersonTreeHouseRepository extends JpaRepository<PersonTreeHouse, Integer> {
 	
-	@Query("SELECT tree_houseid FROM person_tree_house WHERE person_email=:userEmail")
-	public List<Integer> getTreeIDs(@Param("userEmail") String userEmail);
+	@Query(value="SELECT tree_houseid FROM person_tree_house WHERE person_email=?1", nativeQuery=true)
+	public List<Integer> getTreeIDs(String userEmail);
 	
-	@Query("SELECT person_email, generationid FROM person_tree_house WHERE tree_houseid=:treeID")
-	public List<PersonTreeHouse> getEmailsAndIDs(@Param("treeID") int treeID);
+	@Query(value="SELECT person_email, generationid FROM person_tree_house WHERE tree_houseid=?1", nativeQuery=true)
+	public List<PersonTreeHouse> getEmailsAndIDs(int treeID);
 	
 }
