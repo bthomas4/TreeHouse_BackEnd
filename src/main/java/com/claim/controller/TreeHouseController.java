@@ -61,15 +61,18 @@ public class TreeHouseController {
 	
 /************* Get all Users that belong to a Tree ***************/
 	//Get users from a given TreeHouse
-	@RequestMapping(value="/getAllTreeMembers", 
+	@RequestMapping(value="/getAllTreeMembers",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE,
-			method=RequestMethod.GET)
+			method=RequestMethod.POST)
 	
 	@ResponseBody
-	private ResponseEntity<ArrayList<ArrayList<Person>>> getAllTreeMembers(int treeID) {
+	private ResponseEntity<ArrayList<ArrayList<Person>>> getAllTreeMembers(@RequestBody TreeHouse tree) {
+		//Test
+		System.out.println(tree.getTreeHouseID());
 		
 		//Get a List of email and genID for the tree
-		ArrayList<PersonTreeHouse> allUsers = (ArrayList<PersonTreeHouse>) treeHouseService.getEmailsAndIDs(treeID);
+		ArrayList<PersonTreeHouse> allUsers = (ArrayList<PersonTreeHouse>) treeHouseService.getEmailsAndIDs(tree.getTreeHouseID());
 
 		//Create 2d array to be loaded and returned
 		ArrayList<ArrayList<Person>> entireTree = new ArrayList<>();
