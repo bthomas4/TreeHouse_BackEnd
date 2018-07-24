@@ -41,8 +41,6 @@ public class Person {
 	@Transient
 	Set<String> children = new HashSet<>();
 	
-	@Transient
-	ArrayList<Message> inbox;
 	
 	//Constructors
 	public Person() {}
@@ -86,14 +84,6 @@ public class Person {
 
 	public void setChildren(Set<String> children) {
 		this.children = children;
-	}
-
-	public ArrayList<Message> getInbox() {
-		return inbox;
-	}
-
-	public void setInbox(ArrayList<Message> inbox) {
-		this.inbox = inbox;
 	}
 
 	public String getFirstName() {

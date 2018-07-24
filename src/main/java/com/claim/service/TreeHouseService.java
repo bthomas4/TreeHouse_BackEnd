@@ -66,6 +66,7 @@ public class TreeHouseService {
 	//Find and return all email and genID for a tree
 	public ArrayList<PersonTreeHouse> getEmailsAndIDs(int treeID) {
 		long newTreeID = (long)treeID;
+		System.out.println("Tree ID: "+newTreeID);
 		ArrayList<PersonTreeHouse> allPersons = (ArrayList<PersonTreeHouse>) this.personTreeHouseRespository.getEmailsAndIDs(newTreeID);
 		return allPersons;
 	}

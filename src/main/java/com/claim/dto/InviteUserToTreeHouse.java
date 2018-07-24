@@ -1,12 +1,13 @@
 package com.claim.dto;
 
+import com.claim.entity.Message;
+
 public class InviteUserToTreeHouse {
 
 	//Attributes
-	int selectedTreeHouseId;
 	String inviteeFirstName;
 	String inviteeLastName;
-	String inviteeEmail;
+	Message message;
 	
 	
 	//Constructor
@@ -14,18 +15,18 @@ public class InviteUserToTreeHouse {
 
 	
 	//Getters and Setters
-	public int getSelectedTreeHouseId() {
-		return selectedTreeHouseId;
-	}
-
-
-	public void setSelectedTreeHouseId(int selectedTreeHouseId) {
-		this.selectedTreeHouseId = selectedTreeHouseId;
-	}
-
-
 	public String getInviteeFirstName() {
 		return inviteeFirstName;
+	}
+
+
+	public Message getMessage() {
+		return message;
+	}
+
+
+	public void setMessage(Message message) {
+		this.message = message;
 	}
 
 
@@ -41,16 +42,6 @@ public class InviteUserToTreeHouse {
 
 	public void setInviteeLastName(String inviteeLastName) {
 		this.inviteeLastName = inviteeLastName;
-	}
-
-
-	public String getInviteeEmail() {
-		return inviteeEmail;
-	}
-
-
-	public void setInviteeEmail(String inviteeEmail) {
-		this.inviteeEmail = inviteeEmail;
 	}
 	
 }

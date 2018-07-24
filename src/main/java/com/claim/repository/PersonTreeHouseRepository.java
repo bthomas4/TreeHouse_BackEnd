@@ -13,7 +13,8 @@ public interface PersonTreeHouseRepository extends JpaRepository<PersonTreeHouse
 	@Query(value="SELECT tree_houseid FROM person_tree_house WHERE person_email=?1", nativeQuery=true)
 	public List<Integer> getTreeIDs(String userEmail);
 	
-	@Query(value="SELECT person_email, generationid FROM person_tree_house WHERE tree_houseid=?1", nativeQuery=true)
+	
+	@Query(value="SELECT * FROM person_tree_house WHERE tree_houseid=?1", nativeQuery=true)
 	public List<PersonTreeHouse> getEmailsAndIDs(long treeID);
 	
 }

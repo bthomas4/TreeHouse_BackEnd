@@ -1,5 +1,7 @@
 package com.claim.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +11,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="person_tree_house")
-public class PersonTreeHouse {
+public class PersonTreeHouse implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="person_tree_id", nullable=false)
-	Long personTreeId;
+	long personTreeId;
 	
 	@Column(name="person_email", nullable=false)
 	String personEmail;
@@ -37,11 +39,11 @@ public class PersonTreeHouse {
 	
 	
 	//Getters and Setters
-	public Long getPersonTreeId() {
+	public long getPersonTreeId() {
 		return personTreeId;
 	}	
 	
-	public void setPersonTreeId(Long personTreeId) {
+	public void setPersonTreeId(long personTreeId) {
 		this.personTreeId = personTreeId;
 	}
 

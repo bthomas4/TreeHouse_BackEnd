@@ -20,4 +20,8 @@ public class MessageService {
 		this.messageRepository.delete(message);
 	}
 	
+	public ArrayList<Message> getMessages(String userEmail) {
+		return (ArrayList<Message>) this.messageRepository.getMessages(userEmail);
+	}
+	
 }

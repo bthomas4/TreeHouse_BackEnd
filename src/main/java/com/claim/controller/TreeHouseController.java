@@ -108,32 +108,4 @@ public class TreeHouseController {
 	}
 	
 	
-	
-	
-	
-	
-//Still working
-
-/************* Invite Users to a TreeHouse ***************/
-	//TreeHouse members invite Users to a TreeHouse
-	@RequestMapping(value="/inviteUserToTreeHouse",
-		consumes=MediaType.APPLICATION_JSON_VALUE,
-		method=RequestMethod.POST)
-	
-	private void inviteUserToTreeHouse(InviteUserToTreeHouse inviteUserToTreeHouse) {
-		//Find User by email 
-		Person foundPerson = personService.findPerson(inviteUserToTreeHouse.getInviteeEmail());
-		
-		//Check the first/last name match the foundPerson
-		if (foundPerson.getFirstName().equals(inviteUserToTreeHouse.getInviteeFirstName())
-			&& foundPerson.getLastName().equals(inviteUserToTreeHouse.getInviteeLastName())) {
-				//Create a new message and append in to the invitee's message array
-				//Be sure to pass the TH id
-		}
-		else {}
-		
-		//Upon accept of invitation, call another method to add the found user to the given treeID
-	}
-	
-	
 }
