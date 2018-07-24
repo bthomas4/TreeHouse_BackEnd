@@ -1,7 +1,6 @@
 package com.claim.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -62,12 +61,22 @@ public class MessageController {
 	@ResponseBody
 	private ResponseEntity<ArrayList<Message>> getMessagesForUser(@RequestBody Person user) {
 		ArrayList<Message> allMessages = (ArrayList<Message>) messageService.getMessages(user.getEmail());
+		for (Message m : allMessages) {
+			m.setSenderPerson(personService.findPerson(m.getSender()));
+		}
 		return new ResponseEntity<>(allMessages, HttpStatus.OK);
 	}
 	
-	//need method to add a person to the treeHouse on accept
-	//need method to delete message on accept or deny
 	
+/************* Remove a message ***************/
+	@RequestMapping(value="/removeMessage",
+		method=RequestMethod.GET)
+	
+	private void removeMessage(int id) {
+		messageService.deleteMessage(id);
+	}
+	
+		
 	//need method to set relationships on accept and delete the message
 	
 	

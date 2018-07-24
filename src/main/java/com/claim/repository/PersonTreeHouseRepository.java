@@ -17,4 +17,6 @@ public interface PersonTreeHouseRepository extends JpaRepository<PersonTreeHouse
 	@Query(value="SELECT * FROM person_tree_house WHERE tree_houseid=?1", nativeQuery=true)
 	public List<PersonTreeHouse> getEmailsAndIDs(long treeID);
 	
+	@Query(value="SELECT COUNT(*) FROM person_tree_house WHERE person_email=?1 AND tree_houseid=?2", nativeQuery=true)
+	public int checkForDuplicate(String personEmail, int treeID);
 }

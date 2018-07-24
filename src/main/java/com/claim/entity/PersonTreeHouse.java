@@ -1,7 +1,5 @@
 package com.claim.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="person_tree_house")
-public class PersonTreeHouse implements Serializable{
+public class PersonTreeHouse {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

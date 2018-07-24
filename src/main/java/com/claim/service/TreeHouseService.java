@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.claim.repository.MessageRepository;
 import com.claim.repository.PersonTreeHouseRepository;
 import com.claim.repository.TreeHouseRepository;
 import com.claim.entity.PersonTreeHouse;
@@ -16,7 +18,10 @@ public class TreeHouseService {
 	TreeHouseRepository treeHouseRepository;
 	
 	@Autowired
-	PersonTreeHouseRepository personTreeHouseRespository;
+	PersonTreeHouseRepository personTreeHouseRepository;
+	
+	@Autowired
+	MessageRepository messageRepository;
 
 	
 /************* Create a new TreeHouse ***************/
@@ -30,7 +35,7 @@ public class TreeHouseService {
 		//Get the treeID and create new PersonTreeHouse
 		int treeID = tree.getTreeHouseID();
 		PersonTreeHouse personTree = new PersonTreeHouse(userEmail, treeID);
-		this.personTreeHouseRespository.save(personTree);		
+		this.personTreeHouseRepository.save(personTree);		
 	}
 	
 	
@@ -47,7 +52,7 @@ public class TreeHouseService {
 	public List<TreeHouse> searchForTrees(String userEmail) {
 		
 		//Get all treeIDs a person belongs to
-		List<Integer> treeIds = (List<Integer>) this.personTreeHouseRespository.getTreeIDs(userEmail);
+		List<Integer> treeIds = (List<Integer>) this.personTreeHouseRepository.getTreeIDs(userEmail);
 		
 		//Create a List of trees to return
 		List<TreeHouse> trees = new ArrayList<>();
@@ -66,11 +71,20 @@ public class TreeHouseService {
 	//Find and return all email and genID for a tree
 	public ArrayList<PersonTreeHouse> getEmailsAndIDs(int treeID) {
 		long newTreeID = (long)treeID;
-		System.out.println("Tree ID: "+newTreeID);
-		ArrayList<PersonTreeHouse> allPersons = (ArrayList<PersonTreeHouse>) this.personTreeHouseRespository.getEmailsAndIDs(newTreeID);
+		ArrayList<PersonTreeHouse> allPersons = (ArrayList<PersonTreeHouse>) this.personTreeHouseRepository.getEmailsAndIDs(newTreeID);
 		return allPersons;
 	}
 
 	
+/************* Accept invitation, add Person to TH ***************/
+	//Create and save a new PersonTreeHouse
+	public void acceptInvitation(PersonTreeHouse personTreeHouse) {
+		if (personTreeHouseRepository.checkForDuplicate(personTreeHouse.getPersonEmail(), personTreeHouse.getTreeHouseID()) == 0) {
+			System.out.println(personTreeHouseRepository.checkForDuplicate(personTreeHouse.getPersonEmail(), personTreeHouse.getTreeHouseID()));
+			personTreeHouseRepository.save(personTreeHouse);
+		}
+		else {
+		}
+	}
 	
 }

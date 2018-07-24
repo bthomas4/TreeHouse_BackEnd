@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="message")
@@ -40,7 +41,10 @@ public class Message {
 	//Father, Mother, Child, Spouse	
 	String senderRelationToReceiver;
 	
-
+	@Transient
+	//Create Person obj to send back
+	Person senderPerson;
+	
 	//Constructor
 	public Message() {}
 
@@ -113,6 +117,15 @@ public class Message {
 
 	public void setSenderRelationToReceiver(String senderRelationToReceiver) {
 		this.senderRelationToReceiver = senderRelationToReceiver;
+	}
+
+
+	public Person getSenderPerson() {
+		return senderPerson;
+	}
+
+	public void setSenderPerson(Person senderPerson) {
+		this.senderPerson = senderPerson;
 	}
 	
 }

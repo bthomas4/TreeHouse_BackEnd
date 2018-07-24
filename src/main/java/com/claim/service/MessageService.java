@@ -16,8 +16,8 @@ public class MessageService {
 		this.messageRepository.save(message);
 	}
 	
-	public void deleteMessage(Message message) {
-		this.messageRepository.delete(message);
+	public void deleteMessage(int id) {
+		this.messageRepository.delete((long)id);
 	}
 	
 	public ArrayList<Message> getMessages(String userEmail) {

@@ -68,12 +68,10 @@ public class TreeHouseController {
 	
 	@ResponseBody
 	private ResponseEntity<ArrayList<ArrayList<Person>>> getAllTreeMembers(@RequestBody TreeHouse tree) {
-		//Test
-		System.out.println(tree.getTreeHouseID());
-		
+
 		//Get a List of email and genID for the tree
 		ArrayList<PersonTreeHouse> allUsers = (ArrayList<PersonTreeHouse>) treeHouseService.getEmailsAndIDs(tree.getTreeHouseID());
-
+		
 		//Create 2d array to be loaded and returned
 		ArrayList<ArrayList<Person>> entireTree = new ArrayList<>();
 		
@@ -85,7 +83,7 @@ public class TreeHouseController {
 		}
 		
 		//Sort users within the 2d array entireTree
-		for (int i = 0; i < maxGen; i++) {
+		for (int i = 0; i <= maxGen; i++) {
 
 			//Create array to load and push to entireTree
 			ArrayList<Person> genToAdd = new ArrayList<>();
@@ -108,4 +106,13 @@ public class TreeHouseController {
 	}
 	
 	
+/************* Accept a TH invitation ***************/
+	//User accepts and joins a new TH
+	@RequestMapping(value="/acceptInvitation",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			method=RequestMethod.POST)
+	
+	private void acceptInvitation(@RequestBody PersonTreeHouse personTreeHouse) {
+		treeHouseService.acceptInvitation(personTreeHouse);
+	}
 }
