@@ -16,6 +16,7 @@ import com.claim.entity.Message;
 import com.claim.entity.Person;
 import com.claim.service.MessageService;
 import com.claim.service.PersonService;
+import com.claim.service.TreeHouseService;
 
 @CrossOrigin
 @RestController
@@ -26,6 +27,9 @@ public class MessageController {
 	
 	@Autowired
 	PersonService personService;
+	
+	@Autowired
+	TreeHouseService treeHouseService;
 	
 	//after someone accepts/denies a request, delete that message from the repo
 	
@@ -63,6 +67,7 @@ public class MessageController {
 		ArrayList<Message> allMessages = (ArrayList<Message>) messageService.getMessages(user.getEmail());
 		for (Message m : allMessages) {
 			m.setSenderPerson(personService.findPerson(m.getSender()));
+			m.setTreeHouse(treeHouseService.findTreeHouse(m.getTreeID()));
 		}
 		return new ResponseEntity<>(allMessages, HttpStatus.OK);
 	}

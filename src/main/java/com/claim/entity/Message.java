@@ -45,6 +45,10 @@ public class Message {
 	//Create Person obj to send back
 	Person senderPerson;
 	
+	@Transient
+	//Create Person obj to send back
+	TreeHouse treeHouse;
+	
 	//Constructor
 	public Message() {}
 
@@ -54,71 +58,57 @@ public class Message {
 		return messageID;
 	}
 
-
 	public void setMessageID(long messageID) {
 		this.messageID = messageID;
 	}
-
 
 	public String getSubject() {
 		return subject;
 	}
 
-
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-
 
 	public int getTreeID() {
 		return treeID;
 	}
 
-
 	public void setTreeID(int treeID) {
 		this.treeID = treeID;
 	}
-
 
 	public String getReceiver() {
 		return receiver;
 	}
 
-
 	public void setReceiver(String receiver) {
 		this.receiver = receiver;
 	}
-
 
 	public String getSender() {
 		return sender;
 	}
 
-
 	public void setSender(String sender) {
 		this.sender = sender;
 	}
-
 
 	public String getReceiverRelationToSender() {
 		return receiverRelationToSender;
 	}
 
-
 	public void setReceiverRelationToSender(String receiverRelationToSender) {
 		this.receiverRelationToSender = receiverRelationToSender;
 	}
-
 
 	public String getSenderRelationToReceiver() {
 		return senderRelationToReceiver;
 	}
 
-
 	public void setSenderRelationToReceiver(String senderRelationToReceiver) {
 		this.senderRelationToReceiver = senderRelationToReceiver;
 	}
-
 
 	public Person getSenderPerson() {
 		return senderPerson;
@@ -126,6 +116,14 @@ public class Message {
 
 	public void setSenderPerson(Person senderPerson) {
 		this.senderPerson = senderPerson;
+	}
+
+	public TreeHouse getTreeHouse() {
+		return treeHouse;
+	}
+
+	public void setTreeHouse(TreeHouse treeHouse) {
+		this.treeHouse = treeHouse;
 	}
 	
 }

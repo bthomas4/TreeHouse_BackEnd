@@ -26,7 +26,7 @@ public class TreeHouseService {
 	
 /************* Create a new TreeHouse ***************/
 	//Create a new TreeHouse
-	public void createTreeHouse(String treeHouseName, String userEmail) {
+	public TreeHouse createTreeHouse(String treeHouseName, String userEmail) {
 		
 		//Create the new TreeHouse
 		TreeHouse tree = new TreeHouse(treeHouseName);
@@ -35,15 +35,17 @@ public class TreeHouseService {
 		//Get the treeID and create new PersonTreeHouse
 		int treeID = tree.getTreeHouseID();
 		PersonTreeHouse personTree = new PersonTreeHouse(userEmail, treeID);
-		this.personTreeHouseRepository.save(personTree);		
+		this.personTreeHouseRepository.save(personTree);
+		
+		return tree;
 	}
 	
 	
 	
 /************* Find a Tree by treeID ***************/
 	//Find a TreeHouse by TreeHouseID
-	public void findTreeHouse(TreeHouse tree) {
-		this.treeHouseRepository.findOne(tree.getTreeHouseID());
+	public TreeHouse findTreeHouse(int treeID) {
+		return this.treeHouseRepository.findOne(treeID);
 	}
 
 	

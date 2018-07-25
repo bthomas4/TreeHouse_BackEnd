@@ -36,10 +36,11 @@ public class TreeHouseController {
 	//Create new TreeHouse
 	@RequestMapping(value="/createNewTreeHouse", 
 		consumes=MediaType.APPLICATION_JSON_VALUE,
+		produces=MediaType.APPLICATION_JSON_VALUE,
 		method=RequestMethod.POST)
 	
-	private void createNewTreeHouse(@RequestBody CreateTreeHouse treeHouse) {	
-		treeHouseService.createTreeHouse(treeHouse.getTreeHouseName(), treeHouse.getUser().getEmail());		
+	private ResponseEntity<TreeHouse> createNewTreeHouse(@RequestBody CreateTreeHouse treeHouse) {	
+		return new ResponseEntity<>(treeHouseService.createTreeHouse(treeHouse.getTreeHouseName(), treeHouse.getUser().getEmail()), HttpStatus.OK);		
 	}
 
 	
