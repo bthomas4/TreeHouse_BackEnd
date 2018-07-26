@@ -12,5 +12,4 @@ public interface MessageRepository extends JpaRepository<Message, Long>{
 	
 	@Query(value="SELECT * FROM message WHERE receiver=?1 ORDER BY messageid DESC", nativeQuery=true)
 	public List<Message> getMessages(String userEmail);
-	
 }

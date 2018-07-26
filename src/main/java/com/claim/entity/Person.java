@@ -38,8 +38,7 @@ public class Person {
 	@Column(name="spouse")
 	String spouse;
 	
-	@Transient
-	Set<String> children = new HashSet<>();
+//	Set<String> children = new HashSet<>();
 	
 	
 	//Constructors
@@ -76,14 +75,6 @@ public class Person {
 
 	public void setSpouse(String spouse) {
 		this.spouse = spouse;
-	}
-
-	public Set<String> getChildren() {
-		return children;
-	}
-
-	public void setChildren(Set<String> children) {
-		this.children = children;
 	}
 
 	public String getFirstName() {

@@ -41,13 +41,11 @@ public class TreeHouseService {
 	}
 	
 	
-	
 /************* Find a Tree by treeID ***************/
 	//Find a TreeHouse by TreeHouseID
 	public TreeHouse findTreeHouse(int treeID) {
 		return this.treeHouseRepository.findOne(treeID);
 	}
-
 	
 	
 /************* Find all tree (IDs and Names) a User belongs to ***************/
@@ -67,7 +65,6 @@ public class TreeHouseService {
 		return trees;
 	}
 	
-	
 		
 /************* Find all people in a given tree ***************/
 	//Find and return all email and genID for a tree
@@ -77,27 +74,4 @@ public class TreeHouseService {
 		return allPersons;
 	}
 
-	
-/************* Accept invitation, add Person to TH ***************/
-	//Create and save a new PersonTreeHouse
-	public void acceptInvitation(PersonTreeHouse personTreeHouse) {
-		if (personTreeHouseRepository.checkForDuplicate(personTreeHouse.getPersonEmail(), personTreeHouse.getTreeHouseID()) == 0) {
-			System.out.println(personTreeHouseRepository.checkForDuplicate(personTreeHouse.getPersonEmail(), personTreeHouse.getTreeHouseID()));
-			personTreeHouseRepository.save(personTreeHouse);
-		}
-		else {
-		}
-	}
-	
-
-//Not finished
-	
-/************* Accept invitation, add Person to TH ***************/
-	//Create and save a new PersonTreeHouse
-	public void acceptRelationRequest(PersonTreeHouse personTreeHouse) {
-		
-		//Update genID's for people within a specific tree
-		//May need a list of people to iterate through?
-	}
-	
 }

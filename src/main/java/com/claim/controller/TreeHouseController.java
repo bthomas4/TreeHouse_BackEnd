@@ -106,30 +106,4 @@ public class TreeHouseController {
 		return new ResponseEntity<>(entireTree, HttpStatus.OK);
 	}
 	
-	
-/************* Accept a TH invitation ***************/
-	//User accepts and joins a new TH
-	@RequestMapping(value="/acceptInvitation",
-			consumes=MediaType.APPLICATION_JSON_VALUE,
-			method=RequestMethod.POST)
-	
-	private void acceptInvitation(@RequestBody PersonTreeHouse personTreeHouse) {
-		treeHouseService.acceptInvitation(personTreeHouse);
-	}
-	
-	
-	
-	
-//Not finished
-	
-/************* Accept a Relation Request ***************/
-	//User accepts and joins a new TH
-	@RequestMapping(value="/acceptRelationRequest",
-			consumes=MediaType.APPLICATION_JSON_VALUE,
-			method=RequestMethod.POST)
-	
-	private void acceptRelationRequest(@RequestBody PersonTreeHouse personTreeHouse) {
-		treeHouseService.acceptRelationRequest(personTreeHouse);
-	}
-
 }
