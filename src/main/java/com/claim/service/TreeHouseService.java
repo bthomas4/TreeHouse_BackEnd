@@ -89,4 +89,15 @@ public class TreeHouseService {
 		}
 	}
 	
+
+//Not finished
+	
+/************* Accept invitation, add Person to TH ***************/
+	//Create and save a new PersonTreeHouse
+	public void acceptRelationRequest(PersonTreeHouse personTreeHouse) {
+		
+		//Update genID's for people within a specific tree
+		//May need a list of people to iterate through?
+	}
+	
 }
