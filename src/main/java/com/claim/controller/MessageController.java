@@ -34,7 +34,7 @@ public class MessageController {
 	//after someone accepts/denies a request, delete that message from the repo
 	
 	
-/************* Invite Users to a TreeHouse ***************/
+/************* Invite Users to a TreeHouse message ***************/
 	//TreeHouse members invite Users to a TreeHouse
 	@RequestMapping(value="/inviteUserToTreeHouse",
 		consumes=MediaType.APPLICATION_JSON_VALUE,
@@ -53,11 +53,11 @@ public class MessageController {
 				//Create and save the new message
 				Message newMessage = inviteUserToTreeHouse.getMessage();
 				messageService.saveMessage(newMessage); }
-		
 		else {}
 	}
 	
-/************* Invite Users to a TreeHouse ***************/
+	
+/************* Get messages that belong to a user ***************/
 	@RequestMapping(value="/getMessagesForUser",
 		consumes=MediaType.APPLICATION_JSON_VALUE,
 		method=RequestMethod.POST)
@@ -81,8 +81,25 @@ public class MessageController {
 		messageService.deleteMessage(id);
 	}
 	
+	
+/************* Create a relation request message ***************/
+	@RequestMapping(value="/requestRelation",
+			method=RequestMethod.POST)
+
+	private void requestRelation(@RequestBody Message message) {		
+		//Create and save the new message
+		Message newMessage = message;
+		messageService.saveMessage(newMessage);
+	}
+	
+	
+/************* Create a relation request message ***************/
+	@RequestMapping(value="/acceptRelation",
+			method=RequestMethod.POST)
+
+	private void acceptRelation(@RequestBody Message message) {
 		
-	//need method to set relationships on accept and delete the message
+	}
 	
 	
 }
