@@ -1,6 +1,9 @@
 package com.claim.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,9 +34,7 @@ public class MessageController {
 	
 	@Autowired
 	TreeHouseService treeHouseService;
-	
-	//after someone accepts/denies a request, delete that message from the repo
-	
+		
 	
 /************* Create a TreeHouse invitation ***************/
 	//TreeHouse members invite Users to a TreeHouse
@@ -116,217 +117,208 @@ public class MessageController {
 		int treeID = message.getTreeID();
 		Person sender = (personService.findPerson(message.getSender()));
 		Person receiver = (personService.findPerson(message.getReceiver()));
-		int senderGenID = messageService.getGenID(treeID, sender.getEmail());
-		int receiverGenID = messageService.getGenID(treeID, receiver.getEmail());
-		
+		String senderEmail = sender.getEmail();
+		String receiverEmail = receiver.getEmail();
+
 		//SENDER
 		//If key's value is 0, set it to 1
-		if (senderGenID == 0) {
-			messageService.updateGenID(1, treeID, sender.getEmail());
+		if (messageService.getGenID(treeID, sender.getEmail()) == 0) {
+			messageService.updateGenID(1, treeID, senderEmail);
 		}
 		
 		
 		//RECEIVER
 		//If key's value is 0, set it to 1	
-		if (receiverGenID == 0) {
-			messageService.updateGenID(1, treeID, receiver.getEmail());
+		if (messageService.getGenID(treeID, receiver.getEmail()) == 0) {
+			messageService.updateGenID(1, treeID, receiverEmail);
 		}
 				
 		
-		//RECEIVER
+		//Sender To Receiver
 		//Set relations
 		switch (message.getSenderRelationToReceiver()) {
 		
 		case ("Father"):
 			//Set Father attribute
-			receiver.setFather(sender.getEmail());
+			receiver.setFather(senderEmail);
 			
 			//Check if a parent is already set to avoid excessive incrementing
 			if (receiver.getMother() == null) {
 				
-				//Set receiver's genID value for this treeID
-				setTreeHouseID(receiver, treeID, findGenIDValue(sender, treeID) + 1);
+				//Set receiver's genID to (sender's genID + 1) for this treeID
+				messageService.updateGenID(messageService.getGenID(treeID, senderEmail) + 1, treeID, receiverEmail);
 				
 				//Check if Person has children or a spouse
-				if (!receiver.getChildren().isEmpty() || receiver.getSpouse() != null) {
+				Set<Person> kids = personService.findChildren(receiverEmail);
+				if ((!kids.isEmpty()) || receiver.getSpouse() != null) {
 
 					//Update child and spouse's values
-					setRecursiveGenIDs(receiver, treeID); }}
+					setRecursiveGenIDs(receiver, treeID); }
+			}
 			
 			break;
 			
 			
 		case ("Mother"):
 			//Set Mother attribute
-			receiver.setMother(sender.getEmail());
+			receiver.setMother(senderEmail);
 		
 			//Check if a parent is already set to avoid excessive incrementing
 			if(receiver.getFather() == null) {
 				
-				//Set receiver's genID value for this treeID
-				setTreeHouseID(receiver, treeID, findGenIDValue(sender, treeID) + 1);
+				//Set receiver's genID to (sender's genID + 1) for this treeID
+				messageService.updateGenID(messageService.getGenID(treeID, senderEmail) + 1, treeID, receiverEmail);
 				
 				//Check if Person has children or a spouse
-				if (!receiver.getChildren().isEmpty() || receiver.getSpouse() != null) {
-
+				Set<Person> kids = personService.findChildren(receiverEmail);
+				if ((!kids.isEmpty()) || receiver.getSpouse() != null) {
+					
 					//Update child and spouse's values
-					setRecursiveGenIDs(receiver, treeID); }}
+					setRecursiveGenIDs(receiver, treeID); }
+			}
 			
 			break;
 		
 			
 		case ("Child"):
-			//Add child to parent's children set
-//			receiver.children.add(sender.getEmail());
-		
 			//Check to see if any parent relationship has been set
 			if (sender.getFather() == null && sender.getMother() == null) {
 				
-				//Set sender's genID value for this treeID
-				setTreeHouseID(sender, treeID, findGenIDValue(receiver, treeID) + 1);
+				//Set sender's genID value to (receiver genID + 1) for this treeID
+				messageService.updateGenID(messageService.getGenID(treeID, receiverEmail) + 1, treeID, senderEmail);
 				
 				//Check if Person has children or a spouse
-				if (!sender.getChildren().isEmpty() || sender.getSpouse() != null) {
+				Set<Person> kids = personService.findChildren(senderEmail);
+				if ((!kids.isEmpty()) || sender.getSpouse() != null) {
 
 					//Update child and spouse's values
-					setRecursiveGenIDs(sender, treeID); }}
+					setRecursiveGenIDs(sender, treeID); }
+			}
 			
 			break;
 			
 			
 		case ("Spouse"):
 			//Set Spouse attribute for both
-			sender.setSpouse(receiver.getEmail());		
-			receiver.setSpouse(sender.getEmail());
+			sender.setSpouse(receiverEmail);		
+			receiver.setSpouse(senderEmail);
 
 			//Set Spouse genID's equal for the selected tree
-			if (personToTakeValuesFrom.getEmail().equals(sender.getEmail())) {
+			if (message.getBiologicalPerson().equals(senderEmail)) {
 				
-				//Set receiver's genID value for this treeID equal to sender's
-				setTreeHouseID(receiver, treeID, findGenIDValue(sender, treeID)); }
+				//Set receiver's genID value equal to sender's
+				messageService.updateGenID(messageService.getGenID(treeID, senderEmail), treeID, receiverEmail); }
 			
 			else {
-				//Set sender's genID value for this treeID equal to receiver's
-				setTreeHouseID(sender, treeID, findGenIDValue(receiver, treeID)); }
+				
+				//Set sender's genID value equal to receiver's
+				messageService.updateGenID(messageService.getGenID(treeID, receiverEmail), treeID, senderEmail); }
 			
 			break;	
 		}
 		
 		
-		//Set SENDER'S relations
+		//Receiver to Sender
+		//Set Relations
 		switch (message.getReceiverRelationToSender()) {
 		
 		case ("Father"):
 			//Set Father
-			sender.setFather(receiver.getEmail());
+			sender.setFather(receiverEmail);
 			break;
 			
 		case ("Mother"):
 			//Set Father
-			sender.setMother(receiver.getEmail());
-			break;
-			
-		case ("Child"):
-			//Add child to parent's children
-//			sender.children.add(receiver.getEmail());
+			sender.setMother(receiverEmail);
 			break;
 		}
 	}
 	
 	
 	//Update children and spouse genID's when new relation is established
-	public static void setRecursiveGenIDs(Person p0, int treeID) {
+	public void setRecursiveGenIDs(Person p0, int treeID) {
 		
 		//Check for spouse
 		if (p0.getSpouse() != null) {
 
 			//Find spouse by email
-			Person s0 = loadPersonInformation(p0.getSpouse());
+			Person s0 = personService.findPerson(p0.getSpouse());
 			
 			//Set spouse's genID
-			setTreeHouseID(s0, treeID, findGenIDValue(p0, treeID)); }
+			messageService.updateGenID(messageService.getGenID(treeID, p0.getEmail()), treeID, s0.getEmail()); }
 		
 		//Loop through children
-		for (String e1 : p0.getChildren()) {
-			
-			//Find child by email
-			Person p1 = loadPersonInformation(e1);
+		for (Person p1 : personService.findChildren(p0.getEmail())) {
 			
 			//Increment child's genId
-			setTreeHouseID(p1, treeID, findGenIDValue(p0, treeID) + 1);
+			messageService.updateGenID(messageService.getGenID(treeID, p0.getEmail()) + 1, treeID, p1.getEmail());
 							
 			//Check if child has spouse
 			if (p1.getSpouse() != null) {
 				
 				//Find spouse by email
-				Person s1 = loadPersonInformation(p1.getSpouse());
+				Person s1 = personService.findPerson(p1.getSpouse());
 				
 				//Set spouse's genID
-				setTreeHouseID(s1, treeID, findGenIDValue(p1, treeID)); }
+				messageService.updateGenID(messageService.getGenID(treeID, p1.getEmail()), treeID, s1.getEmail()); }
 			
 			//Check if this child has children
-			if (!p1.getChildren().isEmpty()) {
+			Set<Person> p1Kids = personService.findChildren(p1.getEmail());
+			if (!p1Kids.isEmpty()) {
 				
 				//Loop through children
-				for (String e2 : p1.getChildren()) {
-					
-					//Find child by email
-					Person p2 = loadPersonInformation(e2);
+				for (Person p2 : p1Kids) {
 					
 					//Increment child's genId
-					setTreeHouseID(p2, treeID, findGenIDValue(p1, treeID) + 1);
+					messageService.updateGenID(messageService.getGenID(treeID, p1.getEmail()) + 1, treeID, p2.getEmail());
 					
 					//Check if child has spouse
 					if (p2.getSpouse() != null) {
 					
 						//Find spouse by email
-						Person s2 = loadPersonInformation(p2.getSpouse());
+						Person s2 = personService.findPerson(p2.getSpouse());
 						
 						//Set spouse's genID
-						setTreeHouseID(s2, treeID, findGenIDValue(p2, treeID)); }
+						messageService.updateGenID(messageService.getGenID(treeID, p2.getEmail()), treeID, s2.getEmail()); }
 					
 					//Check if the child has children
-					if (!p2.getChildren().isEmpty()) {
+					Set<Person> p2Kids = personService.findChildren(p2.getEmail());
+					if (!p2Kids.isEmpty()) {
 						
 						//Loop through children
-						for (String e3 : p2.getChildren()) {
-							
-							//Find child by email
-							Person p3 = loadPersonInformation(e3);
+						for (Person p3 : p2Kids) {
 							
 							//Increment child's genId
-							setTreeHouseID(p3, treeID, findGenIDValue(p2, treeID) + 1);
+							messageService.updateGenID(messageService.getGenID(treeID, p2.getEmail()) + 1, treeID, p3.getEmail());
 							
 							//Check if child has spouse
 							if (p3.getSpouse() != null) {
 							
 								//Find spouse by email
-								Person s3 = loadPersonInformation(p3.getSpouse());
+								Person s3 = personService.findPerson(p3.getSpouse());
 								
 								//Set spouse's genID
-								setTreeHouseID(s3, treeID, findGenIDValue(p3, treeID)); }
+								messageService.updateGenID(messageService.getGenID(treeID, p3.getEmail()), treeID, s3.getEmail()); }
 															
 							//Check if the child has children
-							if (!p3.getChildren().isEmpty()) {
+							Set<Person> p3Kids = personService.findChildren(p3.getEmail());
+							if (!p3Kids.isEmpty()) {
 								
 								//Loop through children
-								for (String e4 : p3.getChildren()) {
-									
-									//Find child by email
-									Person p4 = loadPersonInformation(e4);
+								for (Person p4 : p3Kids) {
 									
 									//Increment child's genId
-									setTreeHouseID(p4, treeID, findGenIDValue(p3, treeID) + 1);
+									messageService.updateGenID(messageService.getGenID(treeID, p3.getEmail()) + 1, treeID, p4.getEmail());
 									
 									//Check if child has Spouse
 									if (p4.getSpouse() != null) {
 										
 										//Find spouse by email
-										Person s4 = loadPersonInformation(p4.getSpouse());
+										Person s4 = personService.findPerson(p4.getSpouse());
 										
 										//Set spouse's genID
-										setTreeHouseID(s4, treeID, findGenIDValue(p4, treeID));
-									}
+										messageService.updateGenID(messageService.getGenID(treeID, p4.getEmail()), treeID, s4.getEmail()); }
+									
 								}
 							}
 						}
@@ -335,7 +327,5 @@ public class MessageController {
 			}
 		}
 	}
-	}
-	
 	
 }
