@@ -45,12 +45,16 @@ public class Message {
 	//For spouse cases
 	String biologicalPerson;
 	
+	@Column
+	//Person description
+	String summary;
+	
 	@Transient
-	//Create Person obj to send back
+	//Create TreeHouse object to send back
 	TreeHouse treeHouse;
 	
 	@Transient
-	//Create Person obj to send back
+	//Create Person object to send back
 	Person senderPerson;
 	
 	@Transient
@@ -136,7 +140,6 @@ public class Message {
 		this.treeHouse = treeHouse;
 	}
 
-
 	public String getBiologicalPerson() {
 		return biologicalPerson;
 	}
@@ -151,6 +154,14 @@ public class Message {
 
 	public void setReceiverPerson(Person receiverPerson) {
 		this.receiverPerson = receiverPerson;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 	
 }
