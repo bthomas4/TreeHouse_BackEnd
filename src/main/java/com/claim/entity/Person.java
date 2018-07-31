@@ -38,7 +38,9 @@ public class Person {
 	@Column(name="spouse")
 	String spouse;
 	
-//	Set<String> children = new HashSet<>();
+	@Column
+	//Person description
+	String summary;
 	
 	
 	//Constructors
@@ -107,6 +109,14 @@ public class Person {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 }

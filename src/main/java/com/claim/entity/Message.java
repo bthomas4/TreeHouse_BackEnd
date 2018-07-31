@@ -45,10 +45,6 @@ public class Message {
 	//For spouse cases
 	String biologicalPerson;
 	
-	@Column
-	//Person description
-	String summary;
-	
 	@Transient
 	//Create TreeHouse object to send back
 	TreeHouse treeHouse;
@@ -156,12 +152,4 @@ public class Message {
 		this.receiverPerson = receiverPerson;
 	}
 
-	public String getSummary() {
-		return summary;
-	}
-
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-	
 }
