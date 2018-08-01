@@ -3,13 +3,7 @@ package com.claim.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name="person")
@@ -42,9 +36,14 @@ public class Person {
 	//Person description
 	String summary;
 	
+	@Column
+	//path to profile pic
+	String path;
+	
 	
 	//Constructors
-	public Person() {}
+	public Person() {
+	}
 	
 	public Person(String firstName, String lastName, String email, String password) {		
 		this.firstName = firstName;
@@ -117,6 +116,14 @@ public class Person {
 
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }

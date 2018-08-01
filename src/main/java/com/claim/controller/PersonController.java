@@ -55,6 +55,8 @@ public class PersonController {
 			&& user.getLastName() != null
 			&& user.getEmail() != null
 			&& user.getPassword() != null) {
+				user.setPath("/images/default.png");
+				user.setSummary("No summary has been written yet.");
 				personService.savePerson(user);
 				System.out.println("User saved"); }
 		
