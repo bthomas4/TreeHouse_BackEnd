@@ -156,6 +156,7 @@ public class MessageController {
 					setRecursiveGenIDs(receiver, treeID); }
 			}
 			
+			personService.savePerson(receiver);
 			break;
 			
 			
@@ -177,6 +178,7 @@ public class MessageController {
 					setRecursiveGenIDs(receiver, treeID); }
 			}
 			
+			personService.savePerson(receiver);
 			break;
 		
 			
@@ -207,13 +209,19 @@ public class MessageController {
 			if (message.getBiologicalPerson().equals(senderEmail)) {
 				
 				//Set receiver's genID value equal to sender's
-				messageService.updateGenID(messageService.getGenID(treeID, senderEmail), treeID, receiverEmail); }
+				messageService.updateGenID(messageService.getGenID(treeID, senderEmail), treeID, receiverEmail);
+				setRecursiveGenIDs(sender, treeID);
+				setRecursiveGenIDs(receiver, treeID); }
 			
 			else {
 				
 				//Set sender's genID value equal to receiver's
-				messageService.updateGenID(messageService.getGenID(treeID, receiverEmail), treeID, senderEmail); }
+				messageService.updateGenID(messageService.getGenID(treeID, receiverEmail), treeID, senderEmail);
+				setRecursiveGenIDs(receiver, treeID);
+				setRecursiveGenIDs(sender, treeID); }
 			
+			personService.savePerson(sender);
+			personService.savePerson(receiver);
 			break;	
 		}
 		
@@ -225,11 +233,13 @@ public class MessageController {
 		case ("Father"):
 			//Set Father
 			sender.setFather(receiverEmail);
+			personService.savePerson(sender);
 			break;
 			
 		case ("Mother"):
 			//Set Father
 			sender.setMother(receiverEmail);
+			personService.savePerson(sender);
 			break;
 		}
 	}
